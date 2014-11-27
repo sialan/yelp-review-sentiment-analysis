@@ -1,21 +1,12 @@
-# ATTENTION-MUNITES MODELING
+# YELP REVIEW SENTIMENT ANALYSIS
 =========
 
-Work-in-Progress
+Project for UC Berkeley Data Science 205 Class
 ----
-A collection of scripts and machine learning programs for backfilling Attention Minutes.
+To run d3 demo, follow the two lines below and go to localhost:8888 in your browser.
+cd to demo directory
+python -m SimpleHTTPServer 8888
+
+IN PROGRESS
 
 bootstrap.py pip install -r requirements.txt and set os.environ prompt local variables
-
-
-fabfile.py
-
-spin_up_emr()
-check_on_emr()
-tear_down_emr()
-
-run_etl()
-
-spin_up_mongodb_cluster() :check on mongod snapshot else force etl
-tear_down_mongodb_cluster()
-deploy_demo_to_s3()
