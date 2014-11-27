@@ -48,45 +48,13 @@
       return d3.select(selector).datum(data).call(plot);
     };
     
-    texts = [
-      {
-        key: "sherlock",
-        file: "top_sherlock.csv",
-        name: "The Adventures of Sherlock Holmes"
-      }, {
-        key: "aesop",
-        file: "top_aesop.csv",
-        name: "Aesop's Fables"
-      }, {
-        key: "alice",
-        file: "alice.csv",
-        name: "Alice's Adventures in Wonderland"
-      }, {
-        key: "gulliver",
-        file: "top_gulliver.csv",
-        name: "Gulliver's Travels"
-      }
-    ];
     $(function() {
       var display, key, plot, text;
       plot = Bubbles();
       display = function(data) {
         return plotData("#vis", data, plot);
       };
-      key = decodeURIComponent(location.search).replace("?", "");
-      text = texts.filter(function(t) {
-        return t.key === key;
-      })[0];
-      if (!text) {
-        text = texts[0];
-      }
-      $("#text-select").val(key);
-      d3.select("#text-select").on("change", function(e) {
-        key = $(this).val();
-        location.replace("#");
-        return location.search = encodeURIComponent(key);
-      });
-      return d3.csv("data/" + text.file, display);
+      return d3.csv("data/" + 'test.csv', display);
     });
   </script>
 
