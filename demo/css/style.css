@@ -1,0 +1,106 @@
+body {
+  font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+a, a:visited {
+  color:#333;
+}
+
+#container {
+  padding-top:20px;
+  width: 100%;
+  /* width: 980px; */
+  /* border-left: 2px #ddd solid; */
+  /* border-right: 2px #ddd solid; */
+}
+
+header {
+  padding: 10px;
+}
+
+#book-title {
+  color: #555;
+  font-size: 2.3em;
+  text-align: center;
+}
+
+#text-select {
+  float:right;
+  margin-right: 10px;
+}
+
+#vis {
+  overflow: hidden;
+  position: relative;
+}
+
+#status {
+  padding:0 0 20px 20px;
+}
+
+#controls {
+  padding: 20px;
+  background-color: #eee;
+  margin: 10px;
+  width: 350px;
+}
+
+#bubble-background {
+  fill: none;
+  pointer-events: all;
+}
+
+.bubble-node {
+  /* fill: #d1e0f3; */
+  fill: #DCE9BE;
+  opacity: 0.8;
+}
+
+.bubble-hover {
+  /* fill: #b8c7d9; */
+  /* stroke: #CEE98F; */
+  opacity: 1;
+}
+
+.bubble-selected {
+  /* fill: #a8c8ee;  */
+  opacity: 0.95;
+  /* a2e498 */
+  /* ff5850 */
+  /* stroke: #CEE98F;
+  stroke-width: 1.5px; */
+}
+.positive-sentiment {
+  color: #69ff69;
+}
+.negative-sentiment {
+  color: #ff697e;
+}
+.active {
+  font-weight: 900;
+}
+
+a.bubble-label {
+  font-family: 'Segoe UI Semibold', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1em;
+  position: absolute;
+}
+
+
+.bubble-label .bubble-label-value {
+  font: 11px sans-serif;
+  white-space: nowrap;
+}
+
+footer p {
+  text-align: center;
+  padding-top:20px;
+  padding-bottom:20px;
+  font: 13px sans-serif;
+}
+

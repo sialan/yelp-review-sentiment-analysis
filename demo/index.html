@@ -1,0 +1,94 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>vis</title>
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- end CSS-->
+
+  <script src="js/libs/modernizr-2.0.6.min.js"></script>
+</head>
+
+<body>
+
+  <div id="container" class="container">
+
+
+    <header>
+    <h2>The most frequently used words in Yelp Reviews</h2>
+    </header>
+
+    <div id="main" role="main">
+      <div id="vis"></div>
+      <div id="status"></div>
+    </div>
+
+    <footer>
+    <p>Relevant review...</p>
+    </footer>
+
+  </div> <!--! end of #container -->
+
+
+  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+
+
+  <script defer src="js/plugins.js"></script>
+  <script src="js/libs/d3.min.js"></script>
+  <script src="js/vis.js"></script>
+  <script> 
+    var root, texts;
+
+    root = typeof exports !== "undefined" && exports !== null ? exports : this;
+    root.plotData = function(selector, data, plot) {
+      return d3.select(selector).datum(data).call(plot);
+    };
+    
+    texts = [
+      {
+        key: "sherlock",
+        file: "top_sherlock.csv",
+        name: "The Adventures of Sherlock Holmes"
+      }, {
+        key: "aesop",
+        file: "top_aesop.csv",
+        name: "Aesop's Fables"
+      }, {
+        key: "alice",
+        file: "alice.csv",
+        name: "Alice's Adventures in Wonderland"
+      }, {
+        key: "gulliver",
+        file: "top_gulliver.csv",
+        name: "Gulliver's Travels"
+      }
+    ];
+    $(function() {
+      var display, key, plot, text;
+      plot = Bubbles();
+      display = function(data) {
+        return plotData("#vis", data, plot);
+      };
+      key = decodeURIComponent(location.search).replace("?", "");
+      text = texts.filter(function(t) {
+        return t.key === key;
+      })[0];
+      if (!text) {
+        text = texts[0];
+      }
+      $("#text-select").val(key);
+      d3.select("#text-select").on("change", function(e) {
+        key = $(this).val();
+        location.replace("#");
+        return location.search = encodeURIComponent(key);
+      });
+      return d3.csv("data/" + text.file, display);
+    });
+  </script>
+
+</body>
+</html>
