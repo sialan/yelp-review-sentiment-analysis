@@ -1,4 +1,5 @@
 from mrjob.job import MRJob
+from mrjob.step import MRStep
 from mrjob.protocol import JSONValueProtocol
 from itertools import izip
 from operator import itemgetter, attrgetter
@@ -17,8 +18,8 @@ class TopWordsPerBusiness(MRJob):
 			rating = review['stars']
 			yield review['business_id'], (rating, review_text)
 
-	def combiner(self, biz_id, ratings_and_review_texts):
-		ratings, review_texts = izip(*ratings_and_review_texts)
+	def combiner(self, business_id, review_text):
+		ratings, review_texts = izip(*review_text)
 
 		review_words = dict()
 		for review_text in review_texts:
@@ -39,14 +40,15 @@ class TopWordsPerBusiness(MRJob):
 		for key, value in x:
 		    list_of_top_words.append((key, value))
 		
-		yield biz_id, list_of_top_words
+		yield business_id, list_of_top_words
 
 	def reducer(self, key, value):
 		yield key, list(value)
 
 	def steps(self):
-		return [self.mr(self.mapper, self.combiner),
-				self.mr(reducer=self.reducer)]
+		return [MRStep(mapper=self.mapper,
+						combiner=self.combiner,
+						reducer=self.reducer)]
 
 if __name__ == '__main__':
 	TopWordsPerBusiness.run()
