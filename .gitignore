@@ -64,7 +64,8 @@ target/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -98,3 +99,16 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+# =========================
+# Data Files
+# =========================
+
+# Yelp Academic Dataset
+# =========================
+
+# Raw .json files
+data/yelp/*.json
+
+# Raw .csv files
+data/yelp/*.csv
