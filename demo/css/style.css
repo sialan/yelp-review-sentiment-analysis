@@ -2,8 +2,9 @@ body {
   font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
-a, a:visited {
+a, a:visited, a:focus {
   color:#333;
+  outline: none;
 }
 
 #container {
@@ -18,9 +19,10 @@ header {
   padding: 10px;
 }
 
-#book-title {
+#title {
   color: #555;
   font-size: 2.3em;
+  margin:0;
   text-align: center;
 }
 

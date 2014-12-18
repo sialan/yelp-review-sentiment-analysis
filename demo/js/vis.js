@@ -1,7 +1,7 @@
 var Bubbles = function() {
   var chart, clear, click, collide, collisionPadding, connectEvents, data, force, gradient, gradientValue, gravity, hashchange, height, idValue, jitter, label, margin, maxRadius, minCollisionRadius, mouseout, mouseover, node, rScale, rValue, textValue, tick, transformData, update, updateActive, updateLabels, updateNodes, width;
   width = window.innerWidth;
-  height = window.innerWidth * 510 / 980;
+  height = window.innerWidth * 510 / 980 * 13 / 20;
   data = [];
   node = null;
   label = null;
@@ -295,7 +295,7 @@ var Bubbles = function() {
 
       });
       $('.review-list').remove()
-      $( "<dl>", {
+      $( "<ul>", {
         "class": "review-list",
         html: items.join( "" )
       }).appendTo( "#review" );
