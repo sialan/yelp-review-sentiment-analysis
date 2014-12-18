@@ -23,11 +23,12 @@
 
     <div id="main" role="main">
       <div id="vis"></div>
-      <div id="status"></div>
     </div>
 
-    <footer>
-    <p>Relevant review...</p>
+    <footer class='container'>
+      <div id="status"></div>
+      <h3>Relevant review...</h3>
+      <div id="review" class="dl-horizontal"></div>
     </footer>
 
   </div> <!--! end of #container -->
@@ -40,14 +41,14 @@
   <script defer src="js/plugins.js"></script>
   <script src="js/libs/d3.min.js"></script>
   <script src="js/vis.js"></script>
-  <script> 
+  <script>
     var root, texts;
 
     root = typeof exports !== "undefined" && exports !== null ? exports : this;
     root.plotData = function(selector, data, plot) {
       return d3.select(selector).datum(data).call(plot);
     };
-    
+
     $(function() {
       var display, key, plot, text;
       plot = Bubbles();

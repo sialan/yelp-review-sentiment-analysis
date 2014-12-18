@@ -25,6 +25,9 @@ var Bubbles = function() {
   pSentimentValue = function(d) {
     return parseInt(d.positive);
   };
+  reviewIds = function(d) {
+    return d.review_ids;
+  }
   gradientId = function(d) {
     return idValue(d) + "-sentiment";
   };
@@ -40,7 +43,7 @@ var Bubbles = function() {
         .attr("x2", "100%")
         .attr("y2", "0%")
         .attr("spreadMethod", "pad");
-    
+
     // Define the gradient colors
     gradient.append("svg:stop")
         .attr("offset", pSentimentValue(d).toString() + "%")
@@ -55,7 +58,7 @@ var Bubbles = function() {
   resetGradientValue = function(d) {
     var svg = d3.select('svg#vis-main');
     var oldGradDef = d3.select('#' + gradientId(d)).remove();
-    
+
     // Define the gradient
     gradient = svg.append("svg:defs")
         .attr("id", gradientId(d))
@@ -66,7 +69,7 @@ var Bubbles = function() {
         .attr("x2", "100%")
         .attr("y2", "0%")
         .attr("spreadMethod", "pad");
-    
+
     // Define the gradient colors
     gradient.append("svg:stop")
         .attr("offset", pSentimentValue(d).toString() + "%")
@@ -81,7 +84,7 @@ var Bubbles = function() {
   updateActiveGradient = function(d) {
     var svg = d3.select('svg#vis-main');
     var oldGradDef = d3.select('#' + gradientId(d)).remove();
-    
+
     // Define the gradient
     gradient = svg.append("svg:defs")
         .attr("id", gradientId(d))
@@ -92,7 +95,7 @@ var Bubbles = function() {
         .attr("x2", "100%")
         .attr("y2", "0%")
         .attr("spreadMethod", "pad");
-    
+
     // Define the gradient colors
     gradient.append("svg:stop")
         .attr("offset", pSentimentValue(d).toString() + "%")
@@ -269,6 +272,35 @@ var Bubbles = function() {
     id = decodeURIComponent(location.hash.substring(1)).trim();
     return updateActive(id);
   };
+  showReviews = function(currentNode, id) {
+    //get the review_id, business_id??? and word selected
+    //get review_id
+    var reviewList = reviewIds(currentNode)
+    var json
+    var items = []
+    $.getJSON("../data/data.json", function(data) {
+      $.each(data, function(key, val) {
+        $.each(val, function(ke, va) {
+          if(ke === id) {
+            $.each(va, function(k, v) {
+              $.each(v, function(x, y) {
+                if(reviewList.indexOf(x) >= 0) {
+                  items.push( "<dt> Polarity: " + Math.round(y['polarity']*100) /100 + "</dt>" + "<dd id='review-text'>" + y['snippet'] + "</dd>" );
+                }
+              });
+
+            });
+          }
+        });
+
+      });
+      $('.review-list').remove()
+      $( "<dl>", {
+        "class": "review-list",
+        html: items.join( "" )
+      }).appendTo( "#review" );
+    });
+  };
   updateActive = function(id) {
     // Set the new active gradient
     var currentNode;
@@ -284,9 +316,10 @@ var Bubbles = function() {
       return id === idValue(d);
     });
     if (id.length > 0) {
-      return d3.select("#status").html("<h3>" + rValue(currentNode) + " reviews about #<span class=\"active\">" + id + "</span> shown below (<span class='positive-sentiment'>" + pSentimentValue(currentNode) + "% positive</span>, <span class='negative-sentiment'>" + nSentimentValue(currentNode) + "% negative</span>):</h3>");
+      showReviews(currentNode, id)
+      d3.select("#status").html("<h3>" + rValue(currentNode) + " reviews about #<span class=\"active\">" + id + "</span> shown below (<span class='positive-sentiment'>" + pSentimentValue(currentNode) + "% positive</span>, <span class='negative-sentiment'>" + nSentimentValue(currentNode) + "% negative</span>):</h3>");
     } else {
-      return d3.select("#status").html("<h3>No word is active</h3>");
+      d3.select("#status").html("<h3>No word is active</h3>");
     }
   };
   mouseover = function(d) {
