@@ -19,11 +19,10 @@
     <header>
       <h2 id="title">Yelp Review Sentiment Analysis For
         <form id="nl-form" class="nl-form"><select>
-              <option value="1" selected>Restaurant 1</option>
-              <option value="2">Restaurant 2</option>
+              <option value="1">Restaurant 1</option>
+              <option value="2" selected>Restaurant 2</option>
               <option value="3">Restaurant 3</option>
               <option value="4">Business 1</option>
-              <option value="2">Business 2</option>
             </select>
             <div class="nl-overlay"></div>
         </form>
@@ -58,14 +57,36 @@
       return d3.select(selector).datum(data).call(plot);
     };
 
+    texts = [
+      {
+        key: "Restaurant1",
+        file: "Xp7OA8gz7zDgB3I54jyb4g.csv",
+        name: "SIR Hobo's"
+      }, {
+        key: "Restaurant2",
+        file: "1-EIdeHewfEVcpoZm38N8A.csv",
+        name: "Barrique's"
+      }, {
+        key: "Restaurant3",
+        file: "c5awCF5eu0ZkxUf_i94uPA.csv",
+        name: "Bristled Boar Saloon and Grill"
+      }, {
+        key: "Business1",
+        file: "uyp8kpTXKfKXvAB8HdJSAA.csv",
+        name: "Zimbrick BMW"
+      }
+    ]
+
     $(function() {
       var display, key, plot, text;
       plot = Bubbles();
       display = function(data) {
         return plotData("#vis", data, plot);
       };
-      return d3.csv("data/" + 'YaaQx4qt1f36iFT4TWivAw.csv', display);
+      return d3.csv("data/" + '1-EIdeHewfEVcpoZm38N8A.csv', display);
     });
+
+
   </script>
 
 </body>

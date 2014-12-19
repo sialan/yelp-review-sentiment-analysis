@@ -17,7 +17,7 @@ var Bubbles = function() {
     return parseInt(d.count);
   };
   idValue = function(d) {
-    return d.name;
+    return d.name.replace(/ /g,"-");
   };
   nSentimentValue = function(d) {
     return parseInt(d.negative);
@@ -285,7 +285,18 @@ var Bubbles = function() {
             $.each(va, function(k, v) {
               $.each(v, function(x, y) {
                 if(reviewList.indexOf(x) >= 0) {
-                  items.push( "<dt> Polarity: " + Math.round(y['polarity']*100) /100 + "</dt>" + "<dd id='review-text'>" + y['snippet'] + "</dd>" );
+                  var temp = y['snippet'].indexOf(id);
+                  var str = '';
+                  if(y['polarity'] > 0) {
+                    str = y['snippet'].slice(0, temp) + "<span style='background:#69ff69'>" + y['snippet'].slice(temp, temp + id.length) + "</span>" + y['snippet'].slice(temp + id.length);
+                  } else if (y['polarity'] <= 0) {
+                    str = y['snippet'].slice(0, temp) + "<span style='background:#ff697e'>" + y['snippet'].slice(temp, temp + id.length) + "</span>" + y['snippet'].slice(temp + id.length);
+                  } else {
+                    str = y['snippet'];
+                  }
+
+                  console.log(str);
+                  items.push( "<dt> <strong>Polarity: " + Math.round(y['polarity']*100) /100 + "</strong></dt>" + "<dd id='review-text'>" + str + "</dd><br>" );
                 }
               });
 
@@ -317,7 +328,7 @@ var Bubbles = function() {
     });
     if (id.length > 0) {
       showReviews(currentNode, id)
-      d3.select("#status").html("<h3>" + rValue(currentNode) + " reviews about #<span class=\"active\">" + id + "</span> shown below (<span class='positive-sentiment'>" + pSentimentValue(currentNode) + "% positive</span>, <span class='negative-sentiment'>" + nSentimentValue(currentNode) + "% negative</span>):</h3>");
+      d3.select("#status").html("<h3>" + rValue(currentNode) + " reviews about <span class=\"active\">" + id + "</span> for <a target='_blank' href='http://www.yelp.com/biz/bristled-boar-saloon-and-grill-middleton'>Bristled Boar Saloon & Grill</a> shown below (<span class='positive-sentiment'>" + pSentimentValue(currentNode) + "% positive</span>, <span class='negative-sentiment'>" + nSentimentValue(currentNode) + "% negative</span>):</h3>");
     } else {
       d3.select("#status").html("<h3>No word is active</h3>");
     }
