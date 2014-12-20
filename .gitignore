@@ -108,7 +108,7 @@ $RECYCLE.BIN/
 # =========================
 
 # Raw .json files
-data/yelp/*.json
+data/input/*.json
 
 # Raw .csv files
-data/yelp/*.csv
+data/input/*.csv
