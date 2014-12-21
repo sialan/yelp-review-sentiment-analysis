@@ -1,10 +1,12 @@
-var Bubbles = function() {
-  var chart, clear, click, collide, collisionPadding, connectEvents, data, force, gradient, gradientValue, gravity, hashchange, height, idValue, jitter, label, margin, maxRadius, minCollisionRadius, mouseout, mouseover, node, rScale, rValue, textValue, tick, transformData, update, updateActive, updateLabels, updateNodes, width;
+var Bubbles = function(business_name, business_link) {
+  var chart, clear, click, collide, collisionPadding, connectEvents, data, force, gradient, gradientValue, gravity, hashchange, height, idValue, jitter, label, link, margin, maxRadius, minCollisionRadius, mouseout, mouseover, name, node, rScale, rValue, textValue, tick, transformData, update, updateActive, updateLabels, updateNodes, width;
   width = window.innerWidth;
   height = window.innerWidth * 510 / 980 * 13 / 20;
   data = [];
+  name = business_name;
   node = null;
   label = null;
+  link = business_link;
   margin = {
     top: 0,
     right: 0,
@@ -117,6 +119,7 @@ var Bubbles = function() {
   minCollisionRadius = 12;
   jitter = 0.2;
   transformData = function(rawData) {
+    location.replace("#");
     rawData.forEach(function(d) {
       d.count = parseInt(d.count);
       d.positive = parseInt(d.positive);
@@ -275,17 +278,17 @@ var Bubbles = function() {
   showReviews = function(currentNode, id) {
     //get the review_id, business_id??? and word selected
     //get review_id
-    var reviewList = reviewIds(currentNode)
-    var json
-    var items = []
+    var reviewList = reviewIds(currentNode);
+    var json;
+    var items = [];
     $.getJSON("../data/data.json", function(data) {
       $.each(data, function(key, val) {
         $.each(val, function(ke, va) {
-          if(ke === id) {
+          if(ke === id.split('-').join(' ')) {
             $.each(va, function(k, v) {
               $.each(v, function(x, y) {
                 if(reviewList.indexOf(x) >= 0) {
-                  var temp = y['snippet'].indexOf(id);
+                  var temp = y['snippet'].toLowerCase().indexOf(id.split('-').join(' '));
                   var str = '';
                   if(y['polarity'] > 0) {
                     str = y['snippet'].slice(0, temp) + "<span style='background:#69ff69'>" + y['snippet'].slice(temp, temp + id.length) + "</span>" + y['snippet'].slice(temp + id.length);
@@ -295,7 +298,6 @@ var Bubbles = function() {
                     str = y['snippet'];
                   }
 
-                  console.log(str);
                   items.push( "<dt> <strong>Polarity: " + Math.round(y['polarity']*100) /100 + "</strong></dt>" + "<dd id='review-text'>" + str + "</dd><br>" );
                 }
               });
@@ -328,7 +330,7 @@ var Bubbles = function() {
     });
     if (id.length > 0) {
       showReviews(currentNode, id)
-      d3.select("#status").html("<h3>" + rValue(currentNode) + " reviews about <span class=\"active\">" + id + "</span> for <a target='_blank' href='http://www.yelp.com/biz/bristled-boar-saloon-and-grill-middleton'>Bristled Boar Saloon & Grill</a> shown below (<span class='positive-sentiment'>" + pSentimentValue(currentNode) + "% positive</span>, <span class='negative-sentiment'>" + nSentimentValue(currentNode) + "% negative</span>):</h3>");
+      d3.select("#status").html("<h3>" + rValue(currentNode) + " reviews about <span class=\"active\">" + id + "</span> for <a target='_blank' href='" + link + "'>" + name + "</a> shown below (<span class='positive-sentiment'>" + pSentimentValue(currentNode) + "% positive</span>, <span class='negative-sentiment'>" + nSentimentValue(currentNode) + "% negative</span>):</h3>");
     } else {
       d3.select("#status").html("<h3>No word is active</h3>");
     }

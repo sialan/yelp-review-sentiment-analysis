@@ -18,14 +18,19 @@
 		String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g, '');};
 	}
 
+
 	function NLForm( el ) {	
 		this.el = el;
 		this.overlay = this.el.querySelector( '.nl-overlay' );
 		this.fields = [];
 		this.fldOpen = -1;
+		this.currentKeyValue = 'Restaurant 1';
 		this._init();
 	}
-
+	
+	// add to global namespace
+	window.NLForm = NLForm;
+	
 	NLForm.prototype = {
 		_init : function() {
 			var self = this;
@@ -164,6 +169,7 @@
 					this.toggle.innerHTML = opt.innerHTML;
 					// update selected index value
 					this.selectedIdx = idx;
+					NLForm.currentKeyValue = this.toggle.innerHTML;
 					// update original select element´s value
 					this.elOriginal.value = this.elOriginal.children[ this.selectedIdx ].value;
 				}
@@ -175,8 +181,5 @@
 			}
 		}
 	}
-
-	// add to global namespace
-	window.NLForm = NLForm;
 
 } )( window );

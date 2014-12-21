@@ -4,10 +4,7 @@ from textblob import TextBlob
 import nltk
 from nltk.corpus import stopwords, words
 from nltk.stem import PorterStemmer, SnowballStemmer
-import sys
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
 
 results = {}
 
@@ -22,7 +19,8 @@ for business_id, business_row_data in business_data.head(100).iterrows():
     
     # train topic model
     combined = " || ".join(review_data[review_data.index.get_level_values(1) == business_id].text.values.tolist())
-    
+    # what are the topics
+
     # iterate through all reviews for business
     for review_id, business_review_data in review_data[review_data.index.get_level_values(1) == business_id].iterrows():
         b = TextBlob(business_review_data.text)
@@ -32,11 +30,12 @@ for business_id, business_row_data in business_data.head(100).iterrows():
             cleaned = " ".join(cleaned_tokens)
         except:
             cleaned = b
-        #topic model
+        
+        # go through each sentence and split it predict a topic for each
         keywords = rake.run(cleaned)
-        polarity = b.sentiment.polarity
 
         for topic in keywords:
+            polarity = topic.sentiment.polarity
             if topic[0] not in results[business_id]:
                 results[business_id][topic[0]] = {
                     'count': 0,

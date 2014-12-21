@@ -7,8 +7,10 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/component.css" />
-  <script src="js/modernizr.custom.js"></script>
   <!-- end CSS-->
+
+  <script src="js/modernizr.custom.js"></script>
+
 </head>
 
 <body>
@@ -18,13 +20,14 @@
 
     <header>
       <h2 id="title">Yelp Review Sentiment Analysis For
-        <form id="nl-form" class="nl-form"><select>
-              <option value="1">Restaurant 1</option>
-              <option value="2" selected>Restaurant 2</option>
-              <option value="3">Restaurant 3</option>
-              <option value="4">Business 1</option>
-            </select>
-            <div class="nl-overlay"></div>
+        <form id="nl-form" class="nl-form">
+          <select id="business-selector">
+            <option value="Restaurant 1" selected>Restaurant 1</option>
+            <option value="Restaurant 2">Restaurant 2</option>
+            <option value="Restaurant 3">Restaurant 3</option>
+            <option value="Business 1">Business 1</option>
+          </select>
+          <div class="nl-overlay"></div>
         </form>
       </h2>
     </header>
@@ -46,47 +49,65 @@
 
   <script defer src="js/plugins.js"></script>
   <script src="js/nlform.js"></script>
+  <script src="js/libs/watch.js"></script>
   <script src="js/libs/d3.min.js"></script>
   <script src="js/vis.js"></script>
   <script>
-    var root, texts;
-    var nlform = new NLForm( document.getElementById( 'nl-form' ) );
-
-    root = typeof exports !== "undefined" && exports !== null ? exports : this;
-    root.plotData = function(selector, data, plot) {
-      return d3.select(selector).datum(data).call(plot);
-    };
-
-    texts = [
-      {
-        key: "Restaurant1",
-        file: "Xp7OA8gz7zDgB3I54jyb4g.csv",
-        name: "SIR Hobo's"
-      }, {
-        key: "Restaurant2",
-        file: "1-EIdeHewfEVcpoZm38N8A.csv",
-        name: "Barrique's"
-      }, {
-        key: "Restaurant3",
-        file: "c5awCF5eu0ZkxUf_i94uPA.csv",
-        name: "Bristled Boar Saloon and Grill"
-      }, {
-        key: "Business1",
-        file: "uyp8kpTXKfKXvAB8HdJSAA.csv",
-        name: "Zimbrick BMW"
-      }
-    ]
-
-    $(function() {
-      var display, key, plot, text;
-      plot = Bubbles();
-      display = function(data) {
-        return plotData("#vis", data, plot);
+      var root, texts;
+      var nlform = new NLForm( document.getElementById('nl-form'));
+  
+      root = typeof exports !== "undefined" && exports !== null ? exports : this;
+      root.plotData = function(selector, data, plot) {
+        return d3.select(selector).datum(data).call(plot);
       };
-      return d3.csv("data/" + '1-EIdeHewfEVcpoZm38N8A.csv', display);
-    });
 
+      texts = [
+        {
+          key: "Restaurant 1",
+          file: "Xp7OA8gz7zDgB3I54jyb4g.csv",
+          link: "http://www.yelp.com/biz/sir-hobos-sun-prairie",
+          name: "SIR Hobo's"
+        }, {
+          key: "Restaurant 2",
+          file: "1-EIdeHewfEVcpoZm38N8A.csv",
+          link: "http://www.yelp.com/biz/barriques-madison-2",
+          name: "Barrique's"
+        }, {
+          key: "Restaurant 3",
+          file: "c5awCF5eu0ZkxUf_i94uPA.csv",
+          link: "http://www.yelp.com/biz/bristled-boar-saloon-and-grill-middleton",
+          name: "Bristled Boar Saloon and Grill"
+        }, {
+          key: "Business 1",
+          file: "uyp8kpTXKfKXvAB8HdJSAA.csv",
+          link: "http://www.yelp.com/biz/zimbrick-bmw-madison",
+          name: "Zimbrick BMW"
+        }
+      ];
+      
+      function runDemo(current_key) {
+        var currentText, display, key, plot, text;
 
+        for (var i in texts) {
+          if (texts[i]['key'] == current_key) {
+            currentText = texts[i];
+          }
+        }
+        $( "#vis" ).empty();
+        $( "#status" ).empty();
+        $( "#review" ).empty();
+        plot = new Bubbles(currentText['name'], currentText['link']);
+        display = function(data) {
+          return plotData("#vis", data, plot);
+        };
+        return d3.csv("data/" + currentText['file'], display);
+      }
+      watch(NLForm, "currentKeyValue", function(){
+        runDemo(NLForm.currentKeyValue);
+      });
+      $(document).ready(function() {
+        runDemo(nlform.currentKeyValue);
+      });
   </script>
 
 </body>
