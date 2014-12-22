@@ -49,16 +49,13 @@ To perform the sentiment analysis by topic locally, run the main.py file with th
 
 Run Remotely
 ------
-To perform the sentiment analysis by keyphrase remotely on AWS EMR, first retrieve the clusterid spun up in setup
-
-
-run the main.py file with the `--remote` and `--keyphrase` flag. Output will be stored in the `output_bucket` specified in settions.json. 
+To perform the sentiment analysis by keyphrase remotely on AWS EMR, retrieve the jobflow-id from the cluster from setup phase and and run:
 
 	python src/etl/generate_sentiment_by_keyphrase.py -c mrjob.conf -r emr --emr-job-flow-id=<jobflow-id> --output-dir=s3://mybucket/output/ --no-output s3://mybucket/input/yelp_dataset_challenge_reviews.json
 
-To perform the sentiment analysis by keyphrase remotely on AWS EMR, run the main.py file with the `--remote` and `--topic` flag. Output will be stored in the `output_bucket` specified in settions.json. 
+To perform the sentiment analysis by keyphrase remotely on AWS EMR, retrieve the jobflow-id from the cluster from setup phase and and run:
 
-	python src/etl/generate_sentiment_by_topic.py -c mrjob.conf -r emr  --emr-job-flow-id=<jobflow-id> --output-dir=s3://mybucket/output/ --no-output s3://mybucket/input/yelp_dataset_challenge_reviews.json
+	python src/etl/generate_sentiment_by_topic.py -c mrjob.conf -r emr --emr-job-flow-id=<jobflow-id> --output-dir=s3://mybucket/output/ --no-output s3://mybucket/input/yelp_dataset_challenge_reviews.json
 
 Run Demo
 ------
