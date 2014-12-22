@@ -39,3 +39,21 @@ def array_to_csv(filename, output, header=None):
 		# csv_writer_object.writerow([x.encode('utf-8') for x in row])
 		csv_writer_object.writerow(row)
 	f.close()
+
+
+def reviews_dict_to_array(results):
+	"""Transform dictionary of final results into array format.
+
+	Args:
+		results (dict): Dictionary of calculated features associated with each business_id
+	Returns:
+		data (array): Delimited list of data
+	"""
+	data = []
+	for key, value in results.iteritems():
+	    review_ids = []
+	    for review in value['reviews'].iterkeys():
+	        review_ids.append(review)
+	    if int(value['count']) != 1:
+	        data.append([key, key, value['count'], 100 * value['positive'] / value['count'], 100 * value['negative'] / value['count'], review_ids])
+	return data

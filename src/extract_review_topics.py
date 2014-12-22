@@ -5,6 +5,7 @@ import nltk
 from nltk.corpus import stopwords, words
 from nltk.stem import PorterStemmer, SnowballStemmer
 
+from features import split_review_into_segments
 
 results = {}
 

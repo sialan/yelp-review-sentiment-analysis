@@ -4,31 +4,10 @@ import re
 from nltk.corpus import stopwords
 
 
-def get_features(text):
-	"""normalize words by lowercasing and dropping non-alpha characters"""
-	norm = lambda word: re.sub('[^a-z]', '', word.lower())
-
-	"""create a list of lowercase words from the input text, and remove empty strings"""
-	words = list(norm(word) for word in text.split() if word != '')
-	
-	"""build a list of bigrams by pairing words in the text"""
-	bigrams = zip(words[0::2],words[1::2])+zip(words[1::2],words[2::2])
-
-	"""build a list of trigrams by pairing words in the text"""
-	trigrams = zip(words[0::3],words[1::3],words[2::3])+zip(words[1::3],words[2::3],words[3::3])+zip(words[2::3],words[3::3],words[4::3])
-
-	"""build a list of fourgrams by pairing words in the text"""
-	fourgrams = zip(words[0::3],words[1::3],words[2::3])+zip(words[1::3],words[2::3],words[3::3])+zip(words[2::3],words[3::3],words[4::3])
-
-	"""build a list of fivegrams by pairing words in the text"""
-	fivegrams = zip(words[0::3],words[1::3],words[2::3])+zip(words[1::3],words[2::3],words[3::3])+zip(words[2::3],words[3::3],words[4::3])
-
-	return words + bigrams + trigrams + fourgrams + fivegrams
-
 def sentiment feature_extractor(words):
     """Default feature extractor for the NaiveBayesAnalyzer."""
     return dict(((word, True) for word in words))
-
+    
 class KeywordSentiment(MRJob):
 	"""Extract features from each row(review) in the dataset."""
 

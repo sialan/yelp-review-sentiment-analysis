@@ -109,6 +109,10 @@ $RECYCLE.BIN/
 
 # Raw .json files
 data/input/*.json
+data/output/*.json
+data/wip/*.json
 
 # Raw .csv files
 data/input/*.csv
+data/output/*.csv
+data/wip/*.csv
